@@ -1,7 +1,15 @@
 <properties>
 
-    <property id="BackgroundColor" type="number">0x000000</property>
-    <property id="ForegroundColor" type="number">0xFF0000</property>
-    <property id="UseMilitaryFormat" type="boolean">false</property>
+    <property id="PresetColor" type="number">3</property>
+
+    <property id="UseCustomColors" type="boolean">false</property>
+   
+    <property id="RedHighlightColor" type="number">255</property>
+    <property id="GreenHighlightColor" type="number">153</property>
+    <property id="BlueHighlightColor" type="number">0</property>
+
+    <property id="RedRegularColor" type="number">255</property>
+    <property id="GreenRegularColor" type="number">245</property>
+    <property id="BlueRegularColor" type="number">230</property>
 
 </properties>

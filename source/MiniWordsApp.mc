@@ -4,6 +4,8 @@ import Toybox.WatchUi;
 
 class MiniWords extends Application.AppBase {
 
+    private var view;
+
     function initialize() {
         AppBase.initialize();
     }
@@ -18,16 +20,14 @@ class MiniWords extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        return [ new MiniWordsView() ] as Array<Views or InputDelegates>;
+        view = new MiniWordsView();
+        return [ view ] as Array<Views or InputDelegates>;
     }
 
     // New app settings have been received so trigger a UI update
     function onSettingsChanged() as Void {
+        view.onSettingsChanged();
         WatchUi.requestUpdate();
     }
 
-}
-
-function getApp() as MiniWords {
-    return Application.getApp() as MiniWords;
 }

@@ -1,25 +1,43 @@
 <settings>
 
-    <setting propertyKey="@Properties.BackgroundColor" title="@Strings.BackgroundColorTitle">
-        <settingConfig type="list">
-            <listEntry value="0x000000">@Strings.ColorBlack</listEntry>
-            <listEntry value="0x555555">@Strings.ColorDarkGray</listEntry>
-            <listEntry value="0xAAAAAA">@Strings.ColorLightGray</listEntry>
-            <listEntry value="0xFFFFFF">@Strings.ColorWhite</listEntry>
-        </settingConfig>
+    <setting propertyKey="@Properties.PresetColor" title="@Strings.SelectPresetColorTitle">
+    	<settingConfig type="list">
+            <listEntry value="0">@Strings.PresetColorBlue</listEntry>
+            <listEntry value="1">@Strings.PresetColorGreen</listEntry>
+            <listEntry value="2">@Strings.PresetColorGrey</listEntry>
+            <listEntry value="3">@Strings.PresetColorOrange</listEntry>
+            <listEntry value="4">@Strings.PresetColorPink</listEntry>
+            <listEntry value="5">@Strings.PresetColorRed</listEntry>
+            <listEntry value="6">@Strings.PresetColorYellow</listEntry>
+    	</settingConfig>
     </setting>
 
-    <setting propertyKey="@Properties.ForegroundColor" title="@Strings.ForegroundColorTitle">
-        <settingConfig type="list">
-            <listEntry value="0x000000">@Strings.ColorBlack</listEntry>
-            <listEntry value="0x0000FF">@Strings.ColorBlue</listEntry>
-            <listEntry value="0xFF0000">@Strings.ColorRed</listEntry>
-            <listEntry value="0xFFFFFF">@Strings.ColorWhite</listEntry>
-        </settingConfig>
-    </setting>
-
-    <setting propertyKey="@Properties.UseMilitaryFormat" title="@Strings.MilitaryFormatTitle">
+    <setting propertyKey="@Properties.UseCustomColors" title="@Strings.UseCustomColorsTitle">
         <settingConfig type="boolean" />
+    </setting>
+
+    <setting propertyKey="@Properties.RedHighlightColor" title="@Strings.RedHighlightColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
+    </setting>
+
+    <setting propertyKey="@Properties.GreenHighlightColor" title="@Strings.GreenHighlightColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
+    </setting>
+
+    <setting propertyKey="@Properties.BlueHighlightColor" title="@Strings.BlueHighlightColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
+    </setting>
+
+    <setting propertyKey="@Properties.RedRegularColor" title="@Strings.RedRegularColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
+    </setting>
+
+    <setting propertyKey="@Properties.GreenRegularColor" title="@Strings.GreenRegularColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
+    </setting>
+
+    <setting propertyKey="@Properties.BlueRegularColor" title="@Strings.BlueRegularColorTitle">
+        <settingConfig type="numeric" min="0" max="255" required="true"/>
     </setting>
 
 </settings>
