@@ -5,8 +5,6 @@ import Toybox.WatchUi;
 
 class MiniWordsTime extends WatchUi.Drawable {
 
-    private const LEFT_MARGIN = 55;
-
     private var font;
     private var highlightColor;
     private var regularColor;
@@ -100,19 +98,18 @@ class MiniWordsTime extends WatchUi.Drawable {
             separator = "TO";
         }
 
-        var allRows = minutesRows.values().addAll(hoursRows.values());
         var rowCount = allRows.size();
 
         var centerY = dc.getHeight() / 2;
         var fontHeight = dc.getFontHeight(font);
         var initialY = centerY - fontHeight * rowCount / 2;
-        var rowWidth = dc.getTextWidthInPixels(row0, font);
+        var rowWidth = dc.getTextWidthInPixels(allRows[0], font);
 
         drawRegularTextBackground(dc, initialY, rowWidth, fontHeight, rowCount);
         
-        drawHighlightedTextBackground(dc, initialY, fontHeight, minutesRows, minutesMapping, minutes);
-        drawHighlightedTextBackground(dc, initialY, fontHeight, separatorsRows, separatorsMapping, separator);
-        drawHighlightedTextBackground(dc, initialY, fontHeight, hoursRows, hoursMapping, hour);
+        drawHighlightedTextBackground(dc, initialY, fontHeight, 3, 5, minutesMapping, minutes);
+        drawHighlightedTextBackground(dc, initialY, fontHeight, 5, 5, separatorsMapping, separator);
+        drawHighlightedTextBackground(dc, initialY, fontHeight, 6, 11, hoursMapping, hour);
 
         for (var i = 0; i < rowCount; i++) {
             drawRowText(dc, allRows[i], i, initialY, fontHeight);
@@ -121,31 +118,31 @@ class MiniWordsTime extends WatchUi.Drawable {
 
     function drawRegularTextBackground(dc, initialY, rowWidth, fontHeight, rowCount) {
         dc.setColor(regularColor, Graphics.COLOR_TRANSPARENT);
-        dc.fillRectangle(LEFT_MARGIN, initialY + 1, rowWidth, fontHeight * rowCount);
+        dc.fillRectangle(0, initialY + 1, rowWidth, fontHeight * rowCount);
     }
 
-    function drawHighlightedTextBackground(dc, initialY, fontHeight, rows, textMapping, value) {
-        var text = textMapping[value];
+    function drawHighlightedTextBackground(dc, initialY, fontHeight, startIndex, endIndex, textMapping, value) {
+        var textToHighlight = textMapping[value];
         var rowIndex = 0;
         var letterIndex = 0;
 
-        for (var i = 0; i < rows.keys().size(); i++) {
-            rowIndex = rows.keys()[i];
-            var rowText = rows[rowIndex];
-            var index = rowText.find(text);
+        for (var i = startIndex; i <= endIndex && i < allRows.size(); i++) {            
+            var rowText = allRows[i];
+            var index = rowText.find(textToHighlight);
 
             if (index != null) {
                 letterIndex = index;
+                rowIndex = i;
                 break;
             }
         }
 
         var letterWidth = dc.getTextWidthInPixels("A", font);
         
-        var x = LEFT_MARGIN + letterWidth * letterIndex;
+        var x = letterWidth * letterIndex;
         var y = initialY + fontHeight * rowIndex + 1;
         
-        var letterCount = text.length();
+        var letterCount = textToHighlight.length();
         var width = letterWidth * letterCount;
 
         dc.setColor(highlightColor, Graphics.COLOR_TRANSPARENT);
@@ -154,7 +151,7 @@ class MiniWordsTime extends WatchUi.Drawable {
 
     function drawRowText(dc, rowText, rowIndex, initialY, fontHeight) {
         dc.setColor(Graphics.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
-        dc.drawText(LEFT_MARGIN, initialY + fontHeight * rowIndex, font, rowText, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(0, initialY + fontHeight * rowIndex, font, rowText, Graphics.TEXT_JUSTIFY_LEFT);
     }
     
     function getCurrentTime() {
@@ -186,32 +183,23 @@ class MiniWordsTime extends WatchUi.Drawable {
         };
     }
 
-    private const row0 = "X T W E N T Y F I V E K"; // twenty five
-    private const row1 = "L Q U A R T E R T E N Z"; // quarter ten
-    private const row2 = "G H A L F J T O P A S T"; // half to past
-    private const row3 = "C F O U R B E L E V E N"; // four eleven
-    private const row4 = "V T E N T H R E E O N E"; // ten three one
-    private const row5 = "L Y S E V E N E I G H T"; // seven eight
-    private const row6 = "N S I X C F I V E T W O"; // six five two
-    private const row7 = "P N I N E T W E L V E M"; // nine twelve
-
-    private const minutesRows = {
-        0 => row0,
-        1 => row1,
-        2 => row2
-    };
-
-    private const separatorsRows = {
-        2 => row2
-    };
-
-    private const hoursRows = {
-        3 => row3,
-        4 => row4,
-        5 => row5,
-        6 => row6,
-        7 => row7
-    };
+    private const allRows = [
+        "K F Y S E A Z Q V X O G H K B P T",
+        "T Q L H F Z Q N O K A M Y I C R U",
+        "X A U Q J L O E V N O A Y A T V J",
+        "K B X T W E N T Y F I V E T Y H Z", // twenty five
+        "Z K T Q U A R T E R T E N H R H R", // quarter ten
+        "O F L H A L F T O P A S T X M V A", // half to past
+        "H J F O U R W O E L E V E N L N D", // four eleven
+        "A Y T E N T H R E E I O N E Z T Y", // ten three one
+        "S G N S E V E N P E I G H T V G N", // seven eight
+        "E F O D R F I V E Z T W O Z D T U", // five two
+        "S A B S I X G T W E L V E C F D G", // six twelve
+        "G Q G Y K X P N I N E M U K N T J", // nine
+        "Z N E X E P V I A E U B D S D D Z",
+        "Y K Q F G Z T M H S U A R N X E I",
+        "D L T I K B C A W P H Q W L T Y B"
+    ];
 
     private const minutesMapping = {
         0 => "",
