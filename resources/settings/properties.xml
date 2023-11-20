@@ -8,8 +8,8 @@
     <property id="GreenHighlightColor" type="number">153</property>
     <property id="BlueHighlightColor" type="number">0</property>
 
-    <property id="RedRegularColor" type="number">255</property>
-    <property id="GreenRegularColor" type="number">245</property>
-    <property id="BlueRegularColor" type="number">230</property>
+    <property id="RedRegularColor" type="number">102</property>
+    <property id="GreenRegularColor" type="number">61</property>
+    <property id="BlueRegularColor" type="number">0</property>
 
 </properties>

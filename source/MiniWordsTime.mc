@@ -51,31 +51,31 @@ class MiniWordsTime extends WatchUi.Drawable {
                 default:
                 case Blue:
                     highlightRgb = new Rgb(102, 204, 255);
-                    regularRgb = new Rgb(230, 247, 255);
+                    regularRgb = new Rgb(30, 59, 74);
                     break;
                 case Green:
                     highlightRgb = new Rgb(51, 204, 51);
-                    regularRgb = new Rgb(235, 250, 235);
+                    regularRgb = new Rgb(20, 82, 20);
                     break;
                 case Grey:
                     highlightRgb = new Rgb(128, 128, 128);
-                    regularRgb = new Rgb(230, 230, 230);
+                    regularRgb = new Rgb(51, 51, 51);
                     break;
                 case Orange:
                     highlightRgb = new Rgb(255, 153, 0);
-                    regularRgb = new Rgb(255, 245, 230);
+                    regularRgb = new Rgb(102, 61, 0);
                     break;
                 case Pink:
                     highlightRgb = new Rgb(255, 51, 204);
-                    regularRgb = new Rgb(255, 230, 249);
+                    regularRgb = new Rgb(84, 17, 67);
                     break;
                 case Red:
                     highlightRgb = new Rgb(255, 0, 0);
-                    regularRgb = new Rgb(255, 230, 230);
+                    regularRgb = new Rgb(102, 0, 0);
                     break;
                 case Yellow:
                     highlightRgb = new Rgb(255, 255, 0);
-                    regularRgb = new Rgb(255, 255, 230);
+                    regularRgb = new Rgb(102, 102, 0);
                     break;
             }
         }
