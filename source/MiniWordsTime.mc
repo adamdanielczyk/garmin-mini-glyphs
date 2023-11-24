@@ -6,14 +6,13 @@ import Toybox.WatchUi;
 
 class MiniWordsTime extends WatchUi.Drawable {
 
-    private const EXTRA_ROW = 1;
+    private var rowsGenerator;
 
     private var font;
     private var highlightColor;
     private var regularColor;
-    private var allRows;
-    private var textsStartingRow;
-    private var additionalMarginLeft;
+    private var marginLeft = 0;
+    private var marginTop = 0;
 
     function initialize() {
         Drawable.initialize({ :identifier => "MiniWordsTime" });
@@ -91,48 +90,39 @@ class MiniWordsTime extends WatchUi.Drawable {
     }
 
     function draw(dc) {
-        loadRows(dc);
+        var rowsData = loadRowsData(dc);
 
         var currentTime = getCurrentTime();
         var hour = currentTime[:hour];
-        var minutes = currentTime[:minutes];        
+        var minutes = currentTime[:minutes];
+        var separator = getSeparator(minutes);
 
-        var separator;
-        if (minutes == 0) {
-            separator = "";
-        } else if (minutes <= 30) {
-            separator = "PAST";
-        } else {
-            separator = "TO";
-        }
-
-        var rowCount = allRows.size();
+        var rows = rowsData[:rows];
         var fontHeight = dc.getFontHeight(font);
-        var rowWidth = dc.getTextWidthInPixels(allRows[0], font);
 
-        drawRegularTextBackground(dc, rowWidth, fontHeight, rowCount);
+        drawRegularTextBackground(dc);
         
-        drawHighlightedTextBackground(dc, fontHeight, textsStartingRow, textsStartingRow + 3, minutesMapping, minutes);
-        drawHighlightedTextBackground(dc, fontHeight, textsStartingRow + 3, textsStartingRow + 3, separatorsMapping, separator);
-        drawHighlightedTextBackground(dc, fontHeight, textsStartingRow + 4, textsStartingRow + 9, hoursMapping, hour);
+        drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:minutesStartRowIndex], rowsData[:minutesEndRowIndex], minutesMapping, minutes);
+        drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:separatorsStartRowIndex], rowsData[:separatorsEndRowIndex], separatorsMapping, separator);
+        drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:hoursStartRowIndex], rowsData[:hoursEndRowIndex], hoursMapping, hour);
 
-        for (var i = 0; i < rowCount; i++) {
-            drawRowText(dc, allRows[i], i, fontHeight);
+        for (var i = 0; i < rows.size(); i++) {
+            drawRowText(dc, rows[i], i, fontHeight);
         }
     }
 
-    function drawRegularTextBackground(dc, rowWidth, fontHeight, rowCount) {
+    function drawRegularTextBackground(dc) {
         dc.setColor(regularColor, Graphics.COLOR_TRANSPARENT);
-        dc.fillRectangle(additionalMarginLeft, 1, rowWidth, fontHeight * rowCount);
+        dc.fillRectangle(marginLeft, marginTop, dc.getWidth(), dc.getHeight());
     }
 
-    function drawHighlightedTextBackground(dc, fontHeight, startIndex, endIndex, textMapping, value) {
+    function drawHighlightedTextBackground(dc, fontHeight, rows, startIndex, endIndex, textMapping, value) {
         var textToHighlight = textMapping[value];
         var rowIndex = 0;
         var letterIndex = 0;
 
-        for (var i = startIndex; i <= endIndex && i < allRows.size(); i++) {
-            var rowText = allRows[i];
+        for (var i = startIndex; i <= endIndex && i < rows.size(); i++) {
+            var rowText = rows[i];
             var index = rowText.find(textToHighlight);
 
             if (index != null) {
@@ -144,8 +134,8 @@ class MiniWordsTime extends WatchUi.Drawable {
 
         var letterWidth = dc.getTextWidthInPixels("A", font);
         
-        var x = additionalMarginLeft + letterWidth * letterIndex;
-        var y = fontHeight * rowIndex + 1;
+        var x = marginLeft + letterWidth * letterIndex;
+        var y = marginTop + fontHeight * rowIndex;
         
         var letterCount = textToHighlight.length();
         var width = letterWidth * letterCount;
@@ -155,13 +145,16 @@ class MiniWordsTime extends WatchUi.Drawable {
     }
 
     function drawRowText(dc, rowText, rowIndex, fontHeight) {
+        var x = marginLeft;
+        var y = marginTop + fontHeight * rowIndex;
+
         dc.setColor(Graphics.COLOR_TRANSPARENT, Graphics.COLOR_BLACK);
-        dc.drawText(additionalMarginLeft, fontHeight * rowIndex, font, rowText, Graphics.TEXT_JUSTIFY_LEFT);
+        dc.drawText(x, y, font, rowText, Graphics.TEXT_JUSTIFY_LEFT);
     }
 
-    function loadRows(dc) {
-        if (allRows != null) {
-            return;
+    function loadRowsData(dc) {
+        if (rowsGenerator != null) {
+            return rowsGenerator.getRowsData();
         }
 
         var letterWidth = dc.getTextWidthInPixels("A", font);
@@ -170,89 +163,33 @@ class MiniWordsTime extends WatchUi.Drawable {
         var screenWidth = dc.getWidth();
         var screenHeight = dc.getHeight();
 
-        var targetRowCount = screenHeight / fontHeight + EXTRA_ROW;
-        var targetColumnCount = screenWidth / letterWidth;
-        
-        additionalMarginLeft = (screenWidth - letterWidth * targetColumnCount) / 2;
-        var isRowEndingWithSpace = targetColumnCount % 2 == 0;
-        if (isRowEndingWithSpace) {
-            additionalMarginLeft = additionalMarginLeft + letterWidth / 2;
+        var targetRowCount = Math.ceil(screenHeight.toFloat() / fontHeight).toNumber();
+        var targetColumnCount = Math.ceil(screenWidth.toFloat() / letterWidth).toNumber();
+
+        calculateLeftMargin(screenWidth, letterWidth, targetColumnCount);
+        calculateTopMargin(screenHeight, fontHeight, targetRowCount);
+
+        rowsGenerator = new RowsGenerator(targetRowCount, targetColumnCount);
+        return rowsGenerator.getRowsData();
+    }
+
+    function calculateLeftMargin(screenWidth, letterWidth, targetColumnCount) {
+        var rowWidth = letterWidth * targetColumnCount;
+        if (rowWidth > screenWidth) {
+            marginLeft = (screenWidth - rowWidth) / 2;
         }
 
-        var initialRowCount = initialRowsWithWords.size();
-        var rowsToAdd = targetRowCount - initialRowCount;
-        var topRandomRowCount = rowsToAdd / 2;
-        var bottomRandomRowCount = rowsToAdd - topRandomRowCount;
-        textsStartingRow = topRandomRowCount;
-
-        allRows = new [topRandomRowCount];
-
-        for (var i = 0; i < topRandomRowCount; i++) {
-            allRows[i] = "";
-        }
-
-        allRows.addAll(initialRowsWithWords);
-
-        for (var i = 0; i < bottomRandomRowCount; i++) {
-            allRows.add("");
-        }
-
-        for (var i = 0; i < targetRowCount; i++) {
-            allRows[i] = getFilledRow(allRows[i], targetColumnCount);
+        var rowEndsWithSpace = targetColumnCount % 2 == 0;
+        if (rowEndsWithSpace) {
+            marginLeft = marginLeft + letterWidth / 2;
         }
     }
 
-    function getFilledRow(initialRow, targetColumnCount) {
-        var rowLength = initialRow.length();
-        if (rowLength >= targetColumnCount) {
-            return initialRow;
+    function calculateTopMargin(screenHeight, fontHeight, targetRowCount) {
+        var columnHeight = targetRowCount * fontHeight;
+        if (columnHeight > screenHeight) {
+            marginTop = (screenHeight - columnHeight) / 2;
         }
-
-        var columnsToAdd = targetColumnCount - rowLength;
-        
-        var startRandomColumnCount = columnsToAdd / 2;
-        var hasNoSpaceForBothLettersAndSpaceAtStart = startRandomColumnCount % 2 != 0;
-        if (hasNoSpaceForBothLettersAndSpaceAtStart) {
-            startRandomColumnCount = startRandomColumnCount + 1;
-        }
-
-        var endRandomColumnCount = columnsToAdd - startRandomColumnCount;
-
-        var startRandomLetters = "";
-        var endRandomLetters = "";
-
-        for (var i = 0; i < startRandomColumnCount; i++) {
-            var newText;
-            if (i % 2 == 0) {
-                newText = lowerCaseLetters[getRandom(0, 25)];
-            } else {
-                newText = " ";
-            }
-
-            startRandomLetters = startRandomLetters + newText;
-        }
-
-        for (var i = 0; i < endRandomColumnCount; i++) {
-            var newText;
-            if (i % 2 == 0) {
-                newText = lowerCaseLetters[getRandom(0, 25)];
-            } else {
-                newText = " ";
-            }
-
-            endRandomLetters = endRandomLetters + newText;
-        }  
-        
-        var hasInitialLetters = initialRow.length() != 0;        
-        if (hasInitialLetters) {
-            return startRandomLetters + initialRow + " " + endRandomLetters;
-        } else {
-            return startRandomLetters + endRandomLetters;
-        }
-    }
-
-    function getRandom(min, max) {
-        return Math.floor(Math.rand() % (max - min + 1)) + min;
     }
     
     function getCurrentTime() {
@@ -284,20 +221,15 @@ class MiniWordsTime extends WatchUi.Drawable {
         };
     }
 
-    private const lowerCaseLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-
-    private const initialRowsWithWords = [
-        "T E N", // ten
-        "Q U A R T E R", // quarter
-        "T W E N T Y F I V E", // twenty five
-        "H A L F T O P A S T", // half to past
-        "F O U R E L E V E N", // four eleven
-        "T E N T H R E E O N E", // ten three one
-        "S E V E N E I G H T", // seven eight
-        "T W E L V E T W O", // twelve two
-        "S I X F I V E", // six five
-        "N I N E", // nine
-    ];
+    function getSeparator(minutes) {
+        if (minutes == 0) {
+            return "";
+        } else if (minutes <= 30) {
+            return "PAST";
+        } else {
+            return "TO";
+        }
+    }
 
     private const minutesMapping = {
         0 => "",
