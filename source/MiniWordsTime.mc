@@ -46,6 +46,10 @@ class MiniWordsTime extends WatchUi.Drawable {
     }
 
     function drawRegularTextBackground(dc) {
+        if (configurationProvider.isSleepTime()) {
+            return;
+        }
+
         dc.setColor(configurationProvider.regularColor, Graphics.COLOR_TRANSPARENT);
         dc.fillRectangle(marginLeft, marginTop, dc.getWidth(), dc.getHeight());
     }

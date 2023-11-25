@@ -1,5 +1,7 @@
 import Toybox.Application;
 import Toybox.System;
+import Toybox.Time;
+import Toybox.UserProfile;
 
 class ConfigurationProvider {
 
@@ -39,6 +41,24 @@ class ConfigurationProvider {
             :hour => hour,
             :minutes => minutes 
         };
+    }
+
+    function isSleepTime() {
+        var profile = UserProfile.getProfile();
+        var profileSleepTime = profile.sleepTime;
+        var profileWakeTime = profile.wakeTime;
+
+        if (profileSleepTime == null || profileWakeTime == null) {
+            return false;
+        }
+
+        var now = Time.now();
+        var today = Time.today();
+        
+        var sleepTime = today.add(profileSleepTime);
+        var wakeTime = today.add(profileWakeTime);
+        
+        return now.greaterThan(sleepTime) || now.lessThan(wakeTime);
     }
 
     private function loadFont() {
