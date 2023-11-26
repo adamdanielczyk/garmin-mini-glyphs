@@ -3,7 +3,6 @@ import Toybox.Math;
 import Toybox.WatchUi;
 
 class MiniWordsTime extends WatchUi.Drawable {
-
     private var rowsGenerator;
     private var configurationProvider;
 
@@ -35,7 +34,7 @@ class MiniWordsTime extends WatchUi.Drawable {
         var fontHeight = dc.getFontHeight(configurationProvider.font);
 
         drawRegularTextBackground(dc);
-        
+
         drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:minutesStartRowIndex], rowsData[:minutesEndRowIndex], minutesMapping, minutes);
         drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:separatorsStartRowIndex], rowsData[:separatorsEndRowIndex], separatorsMapping, separator);
         drawHighlightedTextBackground(dc, fontHeight, rows, rowsData[:hoursStartRowIndex], rowsData[:hoursEndRowIndex], hoursMapping, hour);
@@ -71,10 +70,10 @@ class MiniWordsTime extends WatchUi.Drawable {
         }
 
         var letterWidth = dc.getTextWidthInPixels("A", configurationProvider.font);
-        
+
         var x = marginLeft + letterWidth * letterIndex;
         var y = marginTop + fontHeight * rowIndex;
-        
+
         var letterCount = textToHighlight.length();
         var width = letterWidth * letterCount;
 
@@ -152,13 +151,13 @@ class MiniWordsTime extends WatchUi.Drawable {
         40 => "T W E N T Y",
         25 => "T W E N T Y F I V E",
         35 => "T W E N T Y F I V E",
-        30 => "H A L F"
+        30 => "H A L F",
     };
-    
+
     private const separatorsMapping = {
         "" => "",
         "PAST" => "P A S T",
-        "TO" => "T O"
+        "TO" => "T O",
     };
 
     private const hoursMapping = {

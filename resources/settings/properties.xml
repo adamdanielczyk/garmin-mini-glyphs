@@ -3,7 +3,7 @@
     <property id="PresetColor" type="number">3</property>
 
     <property id="UseCustomColors" type="boolean">false</property>
-   
+
     <property id="RedHighlightColor" type="number">255</property>
     <property id="GreenHighlightColor" type="number">153</property>
     <property id="BlueHighlightColor" type="number">0</property>

@@ -3,7 +3,6 @@ import Toybox.Time;
 import Toybox.UserProfile;
 
 class ConfigurationProvider {
-
     var font;
     var highlightColor;
     var regularColor;
@@ -11,11 +10,11 @@ class ConfigurationProvider {
 
     function initialize() {
         settings = new Settings();
-        
+
         loadFont();
         loadColors();
     }
-    
+
     function getCurrentTime() {
         var clockTime = System.getClockTime();
         var hour = clockTime.hour;
@@ -41,7 +40,7 @@ class ConfigurationProvider {
 
         return {
             :hour => hour,
-            :minutes => minutes 
+            :minutes => minutes,
         };
     }
 
@@ -56,10 +55,10 @@ class ConfigurationProvider {
 
         var now = Time.now();
         var today = Time.today();
-        
+
         var sleepTime = today.add(profileSleepTime);
         var wakeTime = today.add(profileWakeTime);
-        
+
         return now.greaterThan(sleepTime) || now.lessThan(wakeTime);
     }
 
@@ -74,17 +73,8 @@ class ConfigurationProvider {
         var useCustomColors = settings.get("UseCustomColors");
 
         if (useCustomColors) {
-            highlightRgb = new Rgb(
-                settings.get("RedHighlightColor"),
-                settings.get("GreenHighlightColor"),
-                settings.get("BlueHighlightColor") 
-            );
-
-            regularRgb = new Rgb(
-                settings.get("RedRegularColor"),
-                settings.get("GreenRegularColor"),
-                settings.get("BlueRegularColor") 
-            );
+            highlightRgb = new Rgb(settings.get("RedHighlightColor"), settings.get("GreenHighlightColor"), settings.get("BlueHighlightColor"));
+            regularRgb = new Rgb(settings.get("RedRegularColor"), settings.get("GreenRegularColor"), settings.get("BlueRegularColor"));
         } else {
             var presetColor = settings.get("PresetColor");
             switch (presetColor) {
@@ -131,7 +121,7 @@ class ConfigurationProvider {
         Orange,
         Pink,
         Red,
-        Yellow
+        Yellow,
     }
 
     class Rgb {
@@ -146,7 +136,7 @@ class ConfigurationProvider {
         }
 
         function getHex() {
-            return r & 0x0000FF << 16 | g & 0x0000FF << 8 | b & 0x0000FF;
+            return ((r & 0x0000ff) << 16) | ((g & 0x0000ff) << 8) | (b & 0x0000ff);
         }
     }
 }

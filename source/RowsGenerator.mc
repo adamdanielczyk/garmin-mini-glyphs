@@ -1,7 +1,6 @@
 import Toybox.Math;
 
 class RowsGenerator {
-
     private var targetRowCount;
     private var targetColumnCount;
 
@@ -22,7 +21,7 @@ class RowsGenerator {
                 :separatorsStartRowIndex => textsStartingRow + 3,
                 :separatorsEndRowIndex => textsStartingRow + 3,
                 :hoursStartRowIndex => textsStartingRow + 4,
-                :hoursEndRowIndex => textsStartingRow + 9
+                :hoursEndRowIndex => textsStartingRow + 9,
             };
         }
 
@@ -55,7 +54,7 @@ class RowsGenerator {
             :separatorsStartRowIndex => textsStartingRow + 3,
             :separatorsEndRowIndex => textsStartingRow + 3,
             :hoursStartRowIndex => textsStartingRow + 4,
-            :hoursEndRowIndex => textsStartingRow + 9
+            :hoursEndRowIndex => textsStartingRow + 9,
         };
     }
 
@@ -66,7 +65,7 @@ class RowsGenerator {
         }
 
         var columnsToAdd = targetColumnCount - rowLength;
-        
+
         var leftExtraPartColumnCount = columnsToAdd / 2;
         var leftExtraPartDoesNotEndWithSpace = leftExtraPartColumnCount % 2 != 0;
         if (leftExtraPartDoesNotEndWithSpace) {
@@ -77,8 +76,8 @@ class RowsGenerator {
 
         var leftExtraLetters = getRandomLetters(leftExtraPartColumnCount);
         var rightExtraLetters = getRandomLetters(rightExtraPartColumnCount);
-        
-        var hasInitialLetters = initialRow.length() > 0;        
+
+        var hasInitialLetters = initialRow.length() > 0;
         if (hasInitialLetters) {
             return leftExtraLetters + initialRow + rightExtraLetters;
         } else {
@@ -102,7 +101,7 @@ class RowsGenerator {
         return Math.floor(Math.rand() % (max - min + 1)) + min;
     }
 
-    private const lowerCaseLetters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    private const lowerCaseLetters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
     private const initialRowsWithWords = [
         "T E N ", // ten

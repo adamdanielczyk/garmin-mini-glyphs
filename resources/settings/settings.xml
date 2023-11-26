@@ -1,7 +1,7 @@
 <settings>
 
     <setting propertyKey="@Properties.PresetColor" title="@Strings.SelectPresetColorTitle">
-    	<settingConfig type="list">
+        <settingConfig type="list">
             <listEntry value="0">@Strings.PresetColorBlue</listEntry>
             <listEntry value="1">@Strings.PresetColorGreen</listEntry>
             <listEntry value="2">@Strings.PresetColorGrey</listEntry>
@@ -9,7 +9,7 @@
             <listEntry value="4">@Strings.PresetColorPink</listEntry>
             <listEntry value="5">@Strings.PresetColorRed</listEntry>
             <listEntry value="6">@Strings.PresetColorYellow</listEntry>
-    	</settingConfig>
+        </settingConfig>
     </setting>
 
     <setting propertyKey="@Properties.UseCustomColors" title="@Strings.UseCustomColorsTitle">
