@@ -1,4 +1,3 @@
-import Toybox.Application;
 import Toybox.System;
 import Toybox.Time;
 import Toybox.UserProfile;
@@ -8,8 +7,11 @@ class ConfigurationProvider {
     var font;
     var highlightColor;
     var regularColor;
+    private var settings;
 
     function initialize() {
+        settings = new Settings();
+        
         loadFont();
         loadColors();
     }
@@ -69,22 +71,22 @@ class ConfigurationProvider {
         var highlightRgb;
         var regularRgb;
 
-        var useCustomColors = Application.Properties.getValue("UseCustomColors");
+        var useCustomColors = settings.get("UseCustomColors");
 
         if (useCustomColors) {
             highlightRgb = new Rgb(
-                Application.Properties.getValue("RedHighlightColor"),
-                Application.Properties.getValue("GreenHighlightColor"),
-                Application.Properties.getValue("BlueHighlightColor") 
+                settings.get("RedHighlightColor"),
+                settings.get("GreenHighlightColor"),
+                settings.get("BlueHighlightColor") 
             );
 
             regularRgb = new Rgb(
-                Application.Properties.getValue("RedRegularColor"),
-                Application.Properties.getValue("GreenRegularColor"),
-                Application.Properties.getValue("BlueRegularColor") 
+                settings.get("RedRegularColor"),
+                settings.get("GreenRegularColor"),
+                settings.get("BlueRegularColor") 
             );
         } else {
-            var presetColor = Application.Properties.getValue("PresetColor");
+            var presetColor = settings.get("PresetColor");
             switch (presetColor) {
                 default:
                 case Blue:
