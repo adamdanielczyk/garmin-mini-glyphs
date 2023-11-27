@@ -2,7 +2,7 @@ import Toybox.Graphics;
 import Toybox.Math;
 import Toybox.WatchUi;
 
-class MiniWordsTime extends WatchUi.Drawable {
+class MiniGlyphsTime extends WatchUi.Drawable {
     private var rowsGenerator;
     private var configurationProvider;
 
@@ -10,7 +10,7 @@ class MiniWordsTime extends WatchUi.Drawable {
     private var marginTop = 0;
 
     function initialize() {
-        Drawable.initialize({ :identifier => "MiniWordsTime" });
+        Drawable.initialize({ :identifier => "MiniGlyphsTime" });
         loadConfiguration();
     }
 

@@ -3,10 +3,10 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class MiniWordsBackground extends WatchUi.Drawable {
+class MiniGlyphsBackground extends WatchUi.Drawable {
 
     function initialize() {
-        Drawable.initialize({ :identifier => "MiniWordsBackground" });
+        Drawable.initialize({ :identifier => "MiniGlyphsBackground" });
     }
 
     function draw(dc as Dc) as Void {

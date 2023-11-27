@@ -4,7 +4,7 @@ import Toybox.Lang;
 import Toybox.System;
 import Toybox.WatchUi;
 
-class MiniWordsView extends WatchUi.WatchFace {
+class MiniGlyphsView extends WatchUi.WatchFace {
 
     function initialize() {
         WatchFace.initialize();
@@ -42,7 +42,7 @@ class MiniWordsView extends WatchUi.WatchFace {
     }
 
     function onSettingsChanged() {
-        (View.findDrawableById("MiniWordsTime") as MiniWordsTime).onSettingsChanged();
+        (View.findDrawableById("MiniGlyphsTime") as MiniGlyphsTime).onSettingsChanged();
     }
 
 }

@@ -1,4 +1,4 @@
 <layout id="WatchFace">
-    <drawable class="MiniWordsBackground" />
-    <drawable class="MiniWordsTime" />
+    <drawable class="MiniGlyphsBackground" />
+    <drawable class="MiniGlyphsTime" />
 </layout>

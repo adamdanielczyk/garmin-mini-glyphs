@@ -2,7 +2,7 @@ import Toybox.Application;
 import Toybox.Lang;
 import Toybox.WatchUi;
 
-class MiniWords extends Application.AppBase {
+class MiniGlyphs extends Application.AppBase {
 
     private var view;
 
@@ -20,7 +20,7 @@ class MiniWords extends Application.AppBase {
 
     // Return the initial view of your application here
     function getInitialView() as Array<Views or InputDelegates>? {
-        view = new MiniWordsView();
+        view = new MiniGlyphsView();
         return [ view ] as Array<Views or InputDelegates>;
     }
 
