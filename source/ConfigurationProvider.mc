@@ -44,7 +44,12 @@ class ConfigurationProvider {
         };
     }
 
-    function isSleepTime() {
+    function shouldUseSleepModeLayout() {
+        var sleepModeLayoutEnabled = settings.get("EnableSleepModeLayout");
+        if (!sleepModeLayoutEnabled) {
+            return false;
+        }
+
         var profile = UserProfile.getProfile();
         var profileSleepTime = profile.sleepTime;
         var profileWakeTime = profile.wakeTime;
@@ -59,7 +64,13 @@ class ConfigurationProvider {
         var sleepTime = today.add(profileSleepTime);
         var wakeTime = today.add(profileWakeTime);
 
-        return now.greaterThan(sleepTime) || now.lessThan(wakeTime);
+        if (sleepTime.greaterThan(wakeTime)) {
+            return now.greaterThan(sleepTime) || now.lessThan(wakeTime);
+        } else if (wakeTime.greaterThan(sleepTime)) {
+            return now.greaterThan(sleepTime) && now.lessThan(wakeTime);
+        } else {
+            return false;
+        }
     }
 
     private function loadFont() {

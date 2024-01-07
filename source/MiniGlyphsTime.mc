@@ -45,7 +45,7 @@ class MiniGlyphsTime extends WatchUi.Drawable {
     }
 
     function drawRegularTextBackground(dc) {
-        if (configurationProvider.isSleepTime()) {
+        if (configurationProvider.shouldUseSleepModeLayout()) {
             return;
         }
 

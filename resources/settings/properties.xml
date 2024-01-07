@@ -2,6 +2,8 @@
 
     <property id="PresetColor" type="number">3</property>
 
+    <property id="EnableSleepModeLayout" type="boolean">true</property>
+
     <property id="UseCustomColors" type="boolean">false</property>
 
     <property id="RedHighlightColor" type="number">255</property>

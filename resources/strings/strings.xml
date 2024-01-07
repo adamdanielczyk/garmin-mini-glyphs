@@ -11,6 +11,8 @@
     <string id="PresetColorRed">Red</string>
     <string id="PresetColorYellow">Yellow</string>
 
+    <string id="EnableSleepModeLayoutTitle">Enable to use simplified layout during sleep mode</string>
+
     <string id="UseCustomColorsTitle">Enable to use custom RGB colors defined below</string>
 
     <string id="RedHighlightColorTitle">Highlight Color - Red</string>

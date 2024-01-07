@@ -1,5 +1,9 @@
 <settings>
 
+    <setting propertyKey="@Properties.EnableSleepModeLayout" title="@Strings.EnableSleepModeLayoutTitle">
+        <settingConfig type="boolean" />
+    </setting>
+
     <setting propertyKey="@Properties.PresetColor" title="@Strings.SelectPresetColorTitle">
         <settingConfig type="list">
             <listEntry value="0">@Strings.PresetColorBlue</listEntry>
